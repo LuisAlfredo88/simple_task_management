@@ -16,6 +16,7 @@ func (l *TaskManagementApi) registerTaskHandlers(api *echo.Group) {
 	// Setting up task handlers
 	api.POST("/tasks", l.register)
 	api.GET("/tasks", l.getAllTasks)
+	api.GET("/task_status", l.GetAllTasksStatus)
 	api.GET("/tasks/:id", l.getTaskById)
 	api.PATCH("/tasks/:task_id/:status", l.changeTaskStatus)
 }
@@ -42,8 +43,8 @@ func (p *TaskManagementApi) getAllTasks(c echo.Context) error {
 		Limit: int32(limit),
 		Skip:  int32(skip),
 		Filters: map[string]interface{}{
-			status: status,
-			search: search,
+			"status": status,
+			"search": search,
 		},
 	}
 
@@ -118,4 +119,16 @@ func (p *TaskManagementApi) changeTaskStatus(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, nil)
+}
+
+func (p *TaskManagementApi) GetAllTasksStatus(c echo.Context) error {
+	taskStatus, err := p.taskService.GetAllTasksStatus()
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, sharedModel.ResponseMessage{
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, taskStatus)
 }

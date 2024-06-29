@@ -5,8 +5,9 @@ import (
 )
 
 type TaskStatus struct {
-	Id   uint   `gorm:"primaryKey;autoIncrement" json:"id"`
-	Name string `gorm:"size:100" json:"name"`
+	Id    uint   `gorm:"primaryKey;autoIncrement" json:"id"`
+	Name  string `gorm:"size:100" json:"name"`
+	Color string `gorm:"size:7" json:"color"`
 }
 
 func (TaskStatus) TableName() string {
@@ -15,7 +16,7 @@ func (TaskStatus) TableName() string {
 
 type Task struct {
 	Id          uint       `gorm:"primaryKey;autoIncrement" json:"id"`
-	Title       string     `gorm:"size:100" json:"name"`
+	Title       string     `gorm:"size:100" json:"title"`
 	Description string     `gorm:"size:255" json:"description"`
 	Status      TaskStatus `json:"status"`
 	StatusId    uint       `json:"status_id"`

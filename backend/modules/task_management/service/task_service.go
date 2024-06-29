@@ -2,6 +2,7 @@ package service
 
 import (
 	taskManagementContract "stm/modules/task_management/domain/contract"
+	taskDto "stm/modules/task_management/domain/dto"
 	taskManagementEntity "stm/modules/task_management/domain/entity"
 	sharedModel "stm/shared/model"
 )
@@ -19,7 +20,7 @@ func (l *task) Save(task *taskManagementEntity.Task) (taskManagementEntity.Task,
 	return l.taskRepo.Save(task)
 }
 
-func (l *task) GetAllTasks(filter *sharedModel.CriteriaFilter) ([]taskManagementEntity.Task, int64, error) {
+func (l *task) GetAllTasks(filter *sharedModel.CriteriaFilter) ([]taskDto.TaskRecord, int64, error) {
 	return l.taskRepo.GetAllTasks(filter)
 }
 
@@ -35,6 +36,10 @@ func (l *task) GetTaskById(taskId uint) (taskManagementEntity.Task, error) {
 
 func (l *task) ChangeTaskStatus(taskId uint, status uint) error {
 	return l.taskRepo.ChangeTaskStatus(taskId, status)
+}
+
+func (l *task) GetAllTasksStatus() ([]taskManagementEntity.TaskStatus, error) {
+	return l.taskRepo.GetAllTasksStatus()
 }
 
 func NewTaskService(

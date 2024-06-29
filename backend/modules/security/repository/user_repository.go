@@ -47,7 +47,7 @@ func (l *userRepo) GetAllUsers(filter *sharedModel.CriteriaFilter) ([]securityEn
 	query = query.Limit(int(filter.Limit))
 	query = query.Offset(int(filter.Skip))
 
-	query = query.Order("created_at desc")
+	query = query.Order("name desc")
 	l.db.Raw("?", query).Scan(&users)
 
 	return users, total, nil

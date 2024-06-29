@@ -2,6 +2,7 @@ package repository
 
 import (
 	taskManagementContract "stm/modules/task_management/domain/contract"
+	taskDto "stm/modules/task_management/domain/dto"
 	taskManagementEntity "stm/modules/task_management/domain/entity"
 	sharedModel "stm/shared/model"
 	gormUtil "stm/shared/utility/gorm"
@@ -22,17 +23,21 @@ func (l *taskRepo) Save(task *taskManagementEntity.Task) (taskManagementEntity.T
 	return *task, err
 }
 
-func (l *taskRepo) GetAllTasks(filter *sharedModel.CriteriaFilter) ([]taskManagementEntity.Task, int64, error) {
-	tasks := []taskManagementEntity.Task{}
+func (l *taskRepo) GetAllTasks(filter *sharedModel.CriteriaFilter) ([]taskDto.TaskRecord, int64, error) {
+	tasks := []taskDto.TaskRecord{}
 
-	query := l.db.Model(taskManagementEntity.Task{})
+	query := l.db.Table("tasks t").
+		Joins("JOIN task_status ts ON t.status_id = ts.id").
+		Select(`
+		t.*, ts.name as status, ts.color
+	`)
 
 	if search, ok := (filter.Filters)["search"]; ok && search != "" {
-		query = query.Where("concat(title, ' ', description, ' ', last_name) LIKE ?", "%"+search.(string)+"%")
+		query = query.Where("concat(t.title, ' ', t.description) LIKE ?", "%"+search.(string)+"%")
 	}
 
 	if status, ok := (filter.Filters)["status"]; ok && status != "" {
-		query = query.Where("status_id = ?", status.(uint))
+		query = query.Where("t.status_id = ?", status)
 	}
 
 	total := gormUtil.GetCount(l.db, query)
@@ -40,7 +45,7 @@ func (l *taskRepo) GetAllTasks(filter *sharedModel.CriteriaFilter) ([]taskManage
 	query = query.Limit(int(filter.Limit))
 	query = query.Offset(int(filter.Skip))
 
-	query = query.Order("id desc")
+	query = query.Order("t.id desc")
 	l.db.Raw("?", query).Scan(&tasks)
 
 	return tasks, total, nil
@@ -64,6 +69,12 @@ func (l *taskRepo) ChangeTaskStatus(taskId uint, status uint) error {
 		Update("status_id", status).Error
 
 	return err
+}
+
+func (l *taskRepo) GetAllTasksStatus() ([]taskManagementEntity.TaskStatus, error) {
+	taskStatus := []taskManagementEntity.TaskStatus{}
+	err := l.db.Find(&taskStatus).Error
+	return taskStatus, err
 }
 
 func NewTaskRepo(db *gorm.DB) taskManagementContract.TaskRepository {

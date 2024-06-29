@@ -60,9 +60,9 @@ func loadInitialData(db *gorm.DB) {
 
 	// Defining initial task status
 	taskStatus := []taskManagementEntity.TaskStatus{
-		{Id: 1, Name: "To Do"},
-		{Id: 2, Name: "In Progress"},
-		{Id: 3, Name: "Done"},
+		{Id: 1, Name: "to_do", Color: "#03A9F4"},
+		{Id: 2, Name: "in_progress", Color: "#FF9800"},
+		{Id: 3, Name: "done", Color: "#21b421"},
 	}
 
 	// Insert the initial task status into the database
