@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 
 type GenericKeyValue = {
-    id: number;
+    id: number | string;
     name: string;
 }
 

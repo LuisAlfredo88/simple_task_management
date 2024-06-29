@@ -1,10 +1,10 @@
 import { getErrorInformation } from '@/modules/shared/domain/errors'
 import { systemMessage } from '@/modules/system/domain/events/systemMessage'
 import { LOADING_DATA_ERROR, SAVING_RECORD_ERROR } from '@/modules/shared/domain/commonMessages'
-import type { UserRepository as UserRepo } from '../domain/contract/userContract'
+import type { UserContract } from '../domain/contract/userContract'
 import { type User, type UserForm, type UserFilter, validateUser } from '../domain/entity/user'
 import { evaluateFilter, resetPageScroll } from '@/modules/shared/utility/records'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 
 const users = ref<User[]>([]);
 const totalRecords = ref(0);
@@ -16,7 +16,7 @@ const filter = ref({
 } as CriteriaFilter);
 
 export type userProps = {
-    userRepository : UserRepo,
+    userRepository : UserContract,
     userId?: string
 }
 
@@ -44,7 +44,7 @@ export const useUser = (props: userProps) => {
         loadingRecords.value = true;
 
         try {
-            const data = await props.userRepository.loadUsers(filter.value);
+            const data = await props.userRepository.getAllUsers(filter.value);
             if(hasChanges) {
                 resetPageScroll();
                 users.value = [...(data.records || [])];
@@ -109,6 +109,15 @@ export const useUser = (props: userProps) => {
             user.isActive = !user.isActive;
         }
     }
+
+    const loadUsers = async (): Promise<User[]> => {
+        try {
+            return await props.userRepository.loadUsers();
+        } catch (error) {
+            systemMessage({ "type": "error", "description": LOADING_DATA_ERROR });                      
+        }
+        return [];
+    }
     
     return {
         totalRecords,
@@ -126,7 +135,8 @@ export const useUser = (props: userProps) => {
         saveUser,
         getUserById,
         toggleUserStatus,
-        userExists
+        userExists,
+        loadUsers
     }
 }
 

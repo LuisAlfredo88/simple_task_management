@@ -6,13 +6,14 @@ export default {
         confirm: "Confirmar",
         cancel: "Cancelar",        
         basic_information: "Información básica",
-        showing_n_records: "Mostrando {shown} de {total}"   
+        showing_n_records: "Mostrando {shown} de {total}",
+        confirm_delete: "Realmente desea eliminar este registro", 
     },
     
     COMMON_WORDS: {
         name: 'Nombre',
         status: "Estado",
-        actions: 'Actions'
+        actions: 'Acciones'
     },
 
     COMMON_BUTTONS: {
@@ -36,18 +37,37 @@ export default {
         dashboard: 'Dashboard',
         security: 'Seguridad',
         users: 'Usuarios',
+        tasks: "Tareas",
         task_management: 'Administrador de tareas'
     },
 
     ERRORS: {
         error_loading_info: 'Error cargando información',
+        error_deleting_record: 'Error eliminando registro',
         error_saving_record: "Error guardando registro"
     },
 
     COMMON_MESSAGES: {
-        saved_success: "Registro almacenado satisfactoriamente"
+        saved_success: "Registro almacenado satisfactoriamente",
+        delete_success: "Registro eliminado satisfactoriamente"
     },
 
+    TASK: {
+        task_list: "Listado de tareas",
+        title: "Título",
+        description: "Descripción",
+        task_registration: "Registro de tarea",  
+        must_specify_status: "Debe completar el estado de la tarea",
+        created_by: "Creado por",     
+        assigned_to: "Asignado a", 
+        assignment: "Asignación",
+        TASK_STATUS: {
+            to_do: "Pendiente",
+            in_progress: "En proceso",
+            done: "Finalizado"
+        },        
+    },
+    
     SECURITY: {
         user_registration: "Registro de usuario",
         user_update: "Modificación de usuario",
