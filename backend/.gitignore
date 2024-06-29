@@ -10,8 +10,6 @@ main
 tmp
 __debug_*
 
-.env
-
 # exclude everything
 uploaded/*
 
