@@ -1,14 +1,9 @@
 
 <script setup lang="ts">
-
 </script>
 
 <template>
-	<div>
-		<section class="info-cards" style="--min: 60ch">
-
-		</section>
-	</div>
+	<div></div>
 </template>
 
 <style>
