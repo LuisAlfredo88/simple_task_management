@@ -15,10 +15,15 @@ type taskRepo struct {
 }
 
 func (l *taskRepo) Save(task *taskManagementEntity.Task) (taskManagementEntity.Task, error) {
+	var err error
 
-	err := l.db.Where(taskManagementEntity.Task{Id: task.Id}).
-		Assign(task).
-		FirstOrCreate(&taskManagementEntity.Task{}).Error
+	if task.Id > 0 {
+		err = l.db.Where(taskManagementEntity.Task{Id: task.Id}).
+			Assign(&task).
+			FirstOrCreate(&taskManagementEntity.Task{}).Error
+	} else {
+		err = l.db.Create(&task).Error
+	}
 
 	return *task, err
 }
@@ -41,6 +46,10 @@ func (l *taskRepo) GetAllTasks(filter *sharedModel.CriteriaFilter) ([]taskDto.Ta
 
 	if status, ok := (filter.Filters)["status"]; ok && status != "" {
 		query = query.Where("t.status_id = ?", status)
+	}
+
+	if createdBy, ok := (filter.Filters)["createdBy"]; ok && createdBy != "" {
+		query = query.Where("t.created_by_id = ?", createdBy)
 	}
 
 	total := gormUtil.GetCount(l.db, query)

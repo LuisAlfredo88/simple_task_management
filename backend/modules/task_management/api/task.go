@@ -26,6 +26,7 @@ func (p *TaskManagementApi) getAllTasks(c echo.Context) error {
 	skipStr := c.QueryParam("skip")
 	status := c.QueryParam("status")
 	search := c.QueryParam("search")
+	createdBy := c.QueryParam("createdBy")
 
 	limit, err := strconv.Atoi(limitStr)
 
@@ -43,8 +44,9 @@ func (p *TaskManagementApi) getAllTasks(c echo.Context) error {
 		Limit: int32(limit),
 		Skip:  int32(skip),
 		Filters: map[string]interface{}{
-			"status": status,
-			"search": search,
+			"status":    status,
+			"search":    search,
+			"createdBy": createdBy,
 		},
 	}
 
@@ -60,12 +62,10 @@ func (p *TaskManagementApi) getAllTasks(c echo.Context) error {
 func (p *TaskManagementApi) register(c echo.Context) error {
 	userId, _ := c.Get("userId").(string)
 	taskData := new(taskManagementEntity.Task)
-	// Setting logged user as the creator of the task
-	taskData.CreatedById = userId
 
 	c.Bind(taskData)
 
-	task, err := p.taskService.Save(taskData)
+	task, err := p.taskService.Save(taskData, userId)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, sharedModel.ResponseMessage{
