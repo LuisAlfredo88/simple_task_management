@@ -19,6 +19,7 @@ func (l *TaskManagementApi) registerTaskHandlers(api *echo.Group) {
 	api.GET("/task_status", l.GetAllTasksStatus)
 	api.GET("/tasks/:id", l.getTaskById)
 	api.PATCH("/tasks/:task_id/:status", l.changeTaskStatus)
+	api.DELETE("/tasks/:task_id", l.deteleTask)
 }
 
 func (p *TaskManagementApi) getAllTasks(c echo.Context) error {
@@ -136,4 +137,25 @@ func (p *TaskManagementApi) GetAllTasksStatus(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, taskStatus)
+}
+
+func (p *TaskManagementApi) deteleTask(c echo.Context) error {
+	taskIdParam := c.Param("task_id")
+
+	taskId, err := strconv.Atoi(taskIdParam)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, sharedModel.ResponseMessage{
+			Message: err.Error(),
+		})
+	}
+
+	err = p.taskService.DeleteTask(uint(taskId))
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, sharedModel.ResponseMessage{
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, true)
 }

@@ -12,6 +12,7 @@ type TaskRepository interface {
 	GetTaskById(taskId uint) (taskEntity.Task, error)
 	ChangeTaskStatus(taskId uint, status uint) error
 	GetAllTasksStatus() ([]taskEntity.TaskStatus, error)
+	DeleteTask(taskId uint) error
 }
 
 type TaskService interface {
@@ -20,4 +21,5 @@ type TaskService interface {
 	GetTaskById(taskId uint) (taskEntity.Task, error)
 	ChangeTaskStatus(taskId uint, status uint) error
 	GetAllTasksStatus() ([]taskEntity.TaskStatus, error)
+	DeleteTask(taskId uint) error
 }

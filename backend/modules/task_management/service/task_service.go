@@ -47,6 +47,10 @@ func (l *task) GetAllTasksStatus() ([]taskManagementEntity.TaskStatus, error) {
 	return l.taskRepo.GetAllTasksStatus()
 }
 
+func (l *task) DeleteTask(taskId uint) error {
+	return l.taskRepo.DeleteTask(taskId)
+}
+
 func NewTaskService(
 	taskRepo taskManagementContract.TaskRepository,
 	taskManagementRepo taskManagementContract.TaskRepository,

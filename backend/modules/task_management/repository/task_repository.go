@@ -95,6 +95,14 @@ func (l *taskRepo) GetAllTasksStatus() ([]taskManagementEntity.TaskStatus, error
 	return taskStatus, err
 }
 
+func (l *taskRepo) DeleteTask(taskId uint) error {
+	err := l.db.
+		Where("id = ?", taskId).
+		Delete(taskManagementEntity.Task{}).Error
+
+	return err
+}
+
 func NewTaskRepo(db *gorm.DB) taskManagementContract.TaskRepository {
 	return &taskRepo{
 		db: db,
