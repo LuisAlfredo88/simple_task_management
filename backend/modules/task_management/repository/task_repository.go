@@ -39,7 +39,8 @@ func (l *taskRepo) GetAllTasks(filter *sharedModel.CriteriaFilter) ([]taskDto.Ta
 			t.*, ts.name as status, 
 			ts.color, 
 			CONCAT(u.name, ' ', u.last_name) as created_by,
-			CONCAT(au.name, ' ', au.last_name) as assigned_to
+			CONCAT(au.name, ' ', au.last_name) as assigned_to,
+			t.created_by_id
 		`)
 
 	if search, ok := (filter.Filters)["search"]; ok && search != "" {
@@ -88,7 +89,8 @@ func (l *taskRepo) GetTaskRecordById(taskId uint) (taskDto.TaskRecord, error) {
 			t.*, ts.name as status, 
 			ts.color, 
 			CONCAT(u.name, ' ', u.last_name) as created_by,
-			CONCAT(au.name, ' ', au.last_name) as assigned_to
+			CONCAT(au.name, ' ', au.last_name) as assigned_to,
+			t.created_by_id
 		`).
 		Where("t.id = ?", taskId).
 		First(&task).Error
