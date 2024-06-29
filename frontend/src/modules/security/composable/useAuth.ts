@@ -37,7 +37,7 @@ export const useAuth = (authRepo?: AuthContract) => {
         try {
             const authData = await authRepo.authenticate(user.value, password.value);
             setUserData(sytemStore, authData);
-            router.push('/');
+            router.push('tasks');
             scheduleTokenRenew();
         } catch(error) {
             loginError.value = true;

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-    import type { UserRepository as UserRepo } from '../../domain/contract/userContract'
-    import { useUser } from '../../composable/userComposable'
+    import type { UserContract } from '../../domain/contract/userContract'
+    import { useUser } from '../../composable/useUser'
     import StatusIndicator from '@/components/widgets/StatusIndicator.vue'
     import { showConfirm } from '@/modules/shared/utility/prime'
     import type { User } from '../../domain/entity/user'
@@ -17,7 +17,7 @@
     const router = useRouter();    
     
     const props = defineProps<{
-        UserRepository : UserRepo,
+        UserRepository : UserContract,
     }>();
 
     const userRecordId = ref('');

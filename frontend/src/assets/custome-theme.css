@@ -5983,3 +5983,7 @@ table {
 .p-password {
   width: 100%;
 }
+
+.p-dropdown.p-component svg {
+  top: 13px;
+}

@@ -6,7 +6,8 @@ export default {
         confirm: "Confirm",
         cancel: "Cancel",
         basic_information: "Basic information",
-        showing_n_records: "Showing {shown} of {total}"
+        showing_n_records: "Showing {shown} of {total}",
+        confirm_delete: "Do you really want to delete this record",
     },
 
     COMMON_WORDS: {
@@ -35,17 +36,37 @@ export default {
         dashboard: 'Dashboard',
         security: 'Security',
         users: 'Users',
+        tasks: "Tasks",
         task_management: 'Task Management'
     },
 
     ERRORS: {
         error_loading_info: 'Error loading information',
+        error_deleting_record: 'Error deleting record',
         error_saving_record: "Error saving record"
     },
 
     COMMON_MESSAGES: {
-        saved_success: "Record saved successfully"
+        saved_success: "Record saved successfully",
+        delete_success: "Record deleted successfully"
     },
+
+    TASK: {
+        task_list: "Tasks list",
+        title: "Title",
+        description: "Description",
+        task_registration: "Task registration",
+        must_specify_status: "Must specify task status",
+        created_by: "Created by",
+        assigned_to: "Assigned to",
+        assignment: "Assignment",
+        TASK_STATUS: {
+            to_do: "To Do",
+            in_progress: "In Progress",
+            done: "Done"
+        },
+    },
+
 
     SECURITY: {
         user_registration: "User Registration",
