@@ -60,17 +60,17 @@
         showDialog.value = false;
     }
 
-    const openFormDialog = (record: Task | null) => {
+    const openFormDialog = (id: number | null) => {
         taskRecordId.value = 0;
-        if(record) {
-            taskRecordId.value = record.id;
-            router.push({ params: {id: record.id } });
+        if(id) {
+            taskRecordId.value = id;
+            router.push({ params: {id: id} });
         }
 
         showDialog.value = true;
     }
 
-    const confirmDelete = (event: any, taskId: number, index: number) => {
+    const confirmDelete = (event: any, taskId: number) => {
         const options = {
             confirm, event,
             callback: () => { deleteTask(taskId); },
@@ -155,8 +155,7 @@
                     <Column :exportable="false" style="width: 20%" :header="$t('COMMON_WORDS.actions')">
                         <template #body="{ data }">
                             <div class="grid-actions-container">
-                                <!-- <PButton @click="confirmStatusChange($event, data)" class="grid-button-text" icon="pi pi-lock"  v-tooltip.top="'Eliminar'"  text rounded /> -->
-                                <PButton @click="openFormDialog(data)" class="grid-button-text" icon="pi pi-pencil" v-tooltip.top="'Editar'" text rounded  />
+                                <PButton @click="openFormDialog(data.id)" class="grid-button-text" icon="pi pi-pencil" v-tooltip.top="'Editar'" text rounded  />
                                 <PButton @click="confirmDelete($event, data.id)" class="grid-button-text" icon="pi pi-trash"  v-tooltip.top="'Eliminar'"  text rounded />
                             </div>
                         </template>
@@ -196,8 +195,8 @@
                         </template>
     
                         <template #actions>
-                            <PButton @click="openFormDialog(task)" icon="pi pi-pencil" text />
-                            <!-- <PButton @click="confirmDelete($event, task)" icon="pi pi-lock" text /> -->
+                            <PButton @click="openFormDialog(task.id)" icon="pi pi-pencil" text />
+                            <PButton @click="confirmDelete($event, task.id)" class="grid-button-text" icon="pi pi-trash"  v-tooltip.top="'Eliminar'"  text rounded />
                         </template>
     
                         <template #detail>
