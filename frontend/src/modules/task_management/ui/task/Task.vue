@@ -7,7 +7,8 @@
     import type { User } from '@/modules/security/domain/entity/user'
     import StatusIndicator from '@/components/widgets/StatusIndicator.vue'
     import { showConfirm } from '@/modules/shared/utility/prime'
-    import type { Task, TaskStatus } from '../../domain/entity/task'
+    import { useAuthStore } from '@/modules/security/store/auth'
+    import type { TaskStatus } from '../../domain/entity/task'
     import ConfirmPopup from 'primevue/confirmpopup'
     import TaskForm from './Form.vue'
     import Filter from './Filter.vue'
@@ -18,7 +19,7 @@
     const confirm = useConfirm();
     const router = useRouter();    
     const i18n = useI18n();
-
+    const authStore = useAuthStore();
 
     const props = defineProps<{
         TaskRepository : TaskContract,
@@ -155,8 +156,8 @@
                     <Column :exportable="false" style="width: 20%" :header="$t('COMMON_WORDS.actions')">
                         <template #body="{ data }">
                             <div class="grid-actions-container">
-                                <PButton @click="openFormDialog(data.id)" class="grid-button-text" icon="pi pi-pencil" v-tooltip.top="'Editar'" text rounded  />
-                                <PButton @click="confirmDelete($event, data.id)" class="grid-button-text" icon="pi pi-trash"  v-tooltip.top="'Eliminar'"  text rounded />
+                                <PButton v-if="data.createdById === authStore.user.id" @click="openFormDialog(data.id)" class="grid-button-text" icon="pi pi-pencil" v-tooltip.top="'Editar'" text rounded  />
+                                <PButton v-if="data.createdById === authStore.user.id" @click="confirmDelete($event, data.id)" class="grid-button-text" icon="pi pi-trash"  v-tooltip.top="'Eliminar'"  text rounded />
                             </div>
                         </template>
                     </Column>

@@ -16,7 +16,8 @@ export type TaskRecord  = {
     status: string;
     color: string;
     createdBy: string; 
-    assignedTo: string;     
+    assignedTo: string;
+    createdById: string;     
 }
 
 export type TaskStatus = {
