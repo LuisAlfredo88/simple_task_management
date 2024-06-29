@@ -56,6 +56,12 @@
                         <label for="status">{{ $t('SECURITY.status') }}</label>
                     </span>
 
+                </div>
+            </div>
+
+            <div class="card" style="--min: 50ch">
+                <div class="grid">
+                    <h2>{{  $t('TASK.assignment') }}</h2>
                     <span class="p-float-label">
                         <Dropdown placeholder="Select an item" :showClear="true" optionLabel="name" v-model="taskForm.assignedTo" optionValue="id" :options="users" filter  />
                         <label for="assignedTo">{{ $t('TASK.assigned_to') }}</label>

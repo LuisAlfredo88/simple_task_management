@@ -3,8 +3,10 @@
     import type { UserContract } from '../../../security/domain/contract/userContract'
     import { useTask } from '../../composable/useTask'
     import { useUser } from '@/modules/security/composable/useUser'
+    import { useConfirm } from 'primevue/useconfirm'
     import type { User } from '@/modules/security/domain/entity/user'
     import StatusIndicator from '@/components/widgets/StatusIndicator.vue'
+    import { showConfirm } from '@/modules/shared/utility/prime'
     import type { Task, TaskStatus } from '../../domain/entity/task'
     import ConfirmPopup from 'primevue/confirmpopup'
     import TaskForm from './Form.vue'
@@ -12,9 +14,11 @@
     import { onMounted, ref } from 'vue'
     import { useRouter } from 'vue-router'
     import { useI18n } from "vue-i18n"
-    
+
+    const confirm = useConfirm();
     const router = useRouter();    
     const i18n = useI18n();
+
 
     const props = defineProps<{
         TaskRepository : TaskContract,
@@ -36,7 +40,8 @@
         showDialog,
         totalRecords,
         getAllTasks,
-        getTaskStatus
+        getTaskStatus,
+        deleteTask
     } = useTask({
         taskRepository: props.TaskRepository
     });
@@ -63,6 +68,18 @@
         }
 
         showDialog.value = true;
+    }
+
+    const confirmDelete = (event: any, taskId: number, index: number) => {
+        const options = {
+            confirm, event,
+            callback: () => { deleteTask(taskId); },
+            message: i18n.t('SHARED.confirm_delete'),
+            confirmText: i18n.t('SHARED.confirm'),
+            cancelText: i18n.t('SHARED.cancel')
+        };
+
+        showConfirm(options);
     }
 
     onMounted(() => {
@@ -135,11 +152,12 @@
                             <StatusIndicator :style="{ '--bg-color': (data.color) }" :label="$t('TASK.TASK_STATUS.' + (data.status))"></StatusIndicator>
                         </template>
                     </Column>
-                    <Column :exportable="false" style="width: 20%">
+                    <Column :exportable="false" style="width: 20%" :header="$t('COMMON_WORDS.actions')">
                         <template #body="{ data }">
                             <div class="grid-actions-container">
                                 <!-- <PButton @click="confirmStatusChange($event, data)" class="grid-button-text" icon="pi pi-lock"  v-tooltip.top="'Eliminar'"  text rounded /> -->
                                 <PButton @click="openFormDialog(data)" class="grid-button-text" icon="pi pi-pencil" v-tooltip.top="'Editar'" text rounded  />
+                                <PButton @click="confirmDelete($event, data.id)" class="grid-button-text" icon="pi pi-trash"  v-tooltip.top="'Eliminar'"  text rounded />
                             </div>
                         </template>
                     </Column>
@@ -179,7 +197,7 @@
     
                         <template #actions>
                             <PButton @click="openFormDialog(task)" icon="pi pi-pencil" text />
-                            <!-- <PButton @click="confirmStatusChange($event, task)" icon="pi pi-lock" text /> -->
+                            <!-- <PButton @click="confirmDelete($event, task)" icon="pi pi-lock" text /> -->
                         </template>
     
                         <template #detail>
@@ -223,7 +241,7 @@
         <template #mobile-extra-buttons></template>
     </ContentWrapper>
     
-    <PDialog  @hide="onDialogClose" v-model:visible="showDialog" :closeOnEscape="false" modal :header="$t('TASK.' + (taskId === '' ? 'task_registration': 'task_update') )" :style="{ width: '88vw' }">
+    <PDialog  @hide="onDialogClose" v-model:visible="showDialog" :closeOnEscape="false" modal :header="$t('TASK.' + (taskId === '' ? 'task_registration': 'task_update') )" :style="{ width: '85vw' }">
         <div>
             <TaskForm :taskRepositoy="TaskRepository" :users="users" :taskStatus="taskStatus" :taskId="taskRecordId" ref="formRef" />
         </div>

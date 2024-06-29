@@ -1,6 +1,11 @@
 import { getErrorInformation } from '@/modules/shared/domain/errors'
 import { systemMessage } from '@/modules/system/domain/events/systemMessage'
-import { LOADING_DATA_ERROR, SAVING_RECORD_ERROR } from '@/modules/shared/domain/commonMessages'
+import { 
+    LOADING_DATA_ERROR, 
+    SAVING_RECORD_ERROR,
+    DELETE_RECORD_ERROR,
+    DELETE_RECORD_SUCCESS
+} from '@/modules/shared/domain/commonMessages'
 import type { TaskContract } from '../domain/contract/taskContract'
 import type { Task, TaskFilter, TaskStatus, TaskRecord } from '../domain/entity/task'
 import { validateTask} from '../domain/entity/task'
@@ -79,6 +84,7 @@ export const useTask = (props: taskProps) => {
             }
             
             resetPageScroll();
+            
             return task;
         } catch(e) {
             const error = getErrorInformation(e as Error, SAVING_RECORD_ERROR);
@@ -113,6 +119,26 @@ export const useTask = (props: taskProps) => {
         return [];
     }
 
+    const deleteTask = async (taskId: number): Promise<void> => {
+
+        try {
+            const sucess =  await props.taskRepository.deleteTask(taskId);   
+            if(!sucess) {
+                systemMessage({ "type": "error", "description": DELETE_RECORD_ERROR });
+                return;
+            }
+        } catch(x) {
+            systemMessage({ "type": "error", "description": DELETE_RECORD_ERROR });
+            return;
+        }
+
+        tasks.value = tasks.value.filter(x => x.id !== taskId);
+
+        systemMessage({ "type": "success", "description": DELETE_RECORD_SUCCESS });
+        
+        return;
+    }
+
     return {
         totalRecords,
         tasks,
@@ -129,7 +155,8 @@ export const useTask = (props: taskProps) => {
         saveTask,
         getTaskById,
         changeTaskStatus,
-        getTaskStatus
+        getTaskStatus,
+        deleteTask
     }
 }
 

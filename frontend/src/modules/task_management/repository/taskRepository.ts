@@ -1,6 +1,6 @@
 import type { TaskContract } from '../domain/contract/taskContract'
 import type { Task, TaskFilter, TaskRecord, TaskStatus } from '../domain/entity/task'
-import { post, get, patch, DEFAULT_API_PATH } from '@/modules/shared/http_handler'
+import { post, get, patch, DEFAULT_API_PATH, deleteRecord } from '@/modules/shared/http_handler'
 import { getTaskRecords, getTaskSingleRecords } from './adapters/taskRecords'
 
 const loadTasks = async (filter: TaskFilter | null): Promise<GridRecord> => {
@@ -45,11 +45,17 @@ const getTaskStatus = async (): Promise<TaskStatus[]> => {
 	return requestData.data;
 }
 
+const deleteTask = async (taskId: number): Promise<boolean> => {
+	const requestData = await deleteRecord(DEFAULT_API_PATH + `/tasks_management/tasks/${taskId}`);
+	return requestData.status === 200;
+}
+
 export default {
 	loadTasks,
 	saveTask,
 	getTaskById,
 	changeTaskStatus,
 	taskExists,
-	getTaskStatus
+	getTaskStatus,
+	deleteTask
 } as TaskContract

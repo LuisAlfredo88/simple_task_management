@@ -6,4 +6,5 @@ export interface TaskContract {
     getTaskById(taskId: number):Promise<Task>,       
     changeTaskStatus(taskId: number, status: number): Promise<boolean>    
     getTaskStatus(): Promise<TaskStatus[]>    
+    deleteTask(taskId: number): Promise<boolean>    
 }

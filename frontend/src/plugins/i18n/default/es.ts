@@ -6,13 +6,14 @@ export default {
         confirm: "Confirmar",
         cancel: "Cancelar",        
         basic_information: "Información básica",
-        showing_n_records: "Mostrando {shown} de {total}"   
+        showing_n_records: "Mostrando {shown} de {total}",
+        confirm_delete: "Realmente desea eliminar este registro", 
     },
     
     COMMON_WORDS: {
         name: 'Nombre',
         status: "Estado",
-        actions: 'Actions'
+        actions: 'Acciones'
     },
 
     COMMON_BUTTONS: {
@@ -42,11 +43,13 @@ export default {
 
     ERRORS: {
         error_loading_info: 'Error cargando información',
+        error_deleting_record: 'Error eliminando registro',
         error_saving_record: "Error guardando registro"
     },
 
     COMMON_MESSAGES: {
-        saved_success: "Registro almacenado satisfactoriamente"
+        saved_success: "Registro almacenado satisfactoriamente",
+        delete_success: "Registro eliminado satisfactoriamente"
     },
 
     TASK: {
@@ -57,6 +60,7 @@ export default {
         must_specify_status: "Debe completar el estado de la tarea",
         created_by: "Creado por",     
         assigned_to: "Asignado a", 
+        assignment: "Asignación",
         TASK_STATUS: {
             to_do: "Pendiente",
             in_progress: "En proceso",
