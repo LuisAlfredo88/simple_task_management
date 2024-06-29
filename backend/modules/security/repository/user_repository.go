@@ -34,27 +34,20 @@ func (l *userRepo) GetAllUsers(filter *sharedModel.CriteriaFilter) ([]securityEn
 	query := l.db.Model(securityEntity.User{})
 
 	if search, ok := (filter.Filters)["search"]; ok && search != "" {
-		query = query.Where("concat(name, ' ', user_name, ' ', last_name) ILIKE ?", "%"+search.(string)+"%")
+		query = query.Where("concat(name, ' ', user_name, ' ', last_name) LIKE ?", "%"+search.(string)+"%")
 	}
 
-	if isActive, ok := (filter.Filters)["status"]; ok && isActive != "" {
-		query = query.Where("is_active = ?", isActive.(bool))
+	if isActive, ok := (filter.Filters)["isActive"]; ok && isActive != "" {
+		query = query.Where("is_active = ?", isActive)
 	}
 
-	if dateFrom, ok := (filter.Filters)["creationDateFrom"]; ok && dateFrom != "" {
-		query = query.Where("created_at >= ?", dateFrom)
-	}
-
-	if dateTo, ok := (filter.Filters)["creationDateTo"]; ok && dateTo != "" {
-		query = query.Where("created_at <= ?", dateTo)
-	}
-
+	// Getting records count
 	total := gormUtil.GetCount(l.db, query)
 
 	query = query.Limit(int(filter.Limit))
 	query = query.Offset(int(filter.Skip))
 
-	query = query.Order("created_at desc")
+	query = query.Order("name desc")
 	l.db.Raw("?", query).Scan(&users)
 
 	return users, total, nil
@@ -91,6 +84,15 @@ func (l *userRepo) UserExists(userName string) (bool, error) {
 		Error
 
 	return exists, err
+}
+
+func (l *userRepo) ListUsers() ([]securityEntity.User, error) {
+	var users = []securityEntity.User{}
+	err := l.db.Model(&securityEntity.User{}).
+		Find(&users).
+		Error
+
+	return users, err
 }
 
 func NewUserRepo(db *gorm.DB) securityService.UserRepository {

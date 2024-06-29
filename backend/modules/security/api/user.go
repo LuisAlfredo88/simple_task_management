@@ -16,6 +16,7 @@ func (l *SecurityApi) registerUserHandlers(api *echo.Group) {
 	// Setting up security handlers
 	api.POST("/users", l.register)
 	api.GET("/users", l.getAllUsers)
+	api.GET("/users_list", l.listUsers)
 	api.GET("/users/:id", l.getUserById)
 	api.GET("/users/:name/exists", l.userExists)
 	api.PATCH("/users/:user_id/:status", l.toogleUserStatus)
@@ -24,9 +25,8 @@ func (l *SecurityApi) registerUserHandlers(api *echo.Group) {
 func (p *SecurityApi) getAllUsers(c echo.Context) error {
 	limitStr := c.QueryParam("limit")
 	skipStr := c.QueryParam("skip")
-	isActive := c.QueryParam("is_active")
-	creationDateFrom := c.QueryParam("creation_date_from")
-	creationDateTo := c.QueryParam("creation_date_to")
+	search := c.QueryParam("search")
+	isActive := c.QueryParam("status")
 
 	limit, err := strconv.Atoi(limitStr)
 
@@ -44,14 +44,9 @@ func (p *SecurityApi) getAllUsers(c echo.Context) error {
 		Limit: int32(limit),
 		Skip:  int32(skip),
 		Filters: map[string]interface{}{
-			isActive:         isActive,
-			creationDateFrom: creationDateFrom,
-			creationDateTo:   creationDateTo,
+			"isActive": isActive,
+			"search":   search,
 		},
-	}
-
-	if err := c.Bind(&criteria); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	users, totalRecords, _ := p.userService.GetAllUsers(&criteria)
@@ -129,4 +124,16 @@ func (p *SecurityApi) userExists(c echo.Context) error {
 	return c.JSON(http.StatusOK, response{
 		Exists: userExists,
 	})
+}
+
+func (p *SecurityApi) listUsers(c echo.Context) error {
+	users, err := p.userService.ListUsers()
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, sharedModel.ResponseMessage{
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, users)
 }

@@ -3,6 +3,7 @@ package sqlite
 import (
 	"log"
 	securityEntity "stm/modules/security/domain/entity"
+	taskManagementEntity "stm/modules/task_management/domain/entity"
 	"stm/shared/utility/encoding"
 
 	"gorm.io/driver/sqlite"
@@ -17,6 +18,23 @@ func MigrationDBInstance() *gorm.DB {
 	}
 
 	return db
+}
+
+func DoMigration(db *gorm.DB) {
+	err := db.AutoMigrate(
+		// Security entities
+		securityEntity.User{},
+
+		// Task management entities
+		taskManagementEntity.TaskStatus{},
+		taskManagementEntity.Task{},
+	)
+
+	if err != nil {
+		panic("failed to migrate database: " + err.Error())
+	}
+
+	loadInitialData(db)
 }
 
 func loadInitialData(db *gorm.DB) {
@@ -39,17 +57,47 @@ func loadInitialData(db *gorm.DB) {
 			log.Println("Could not insert initial user:", result.Error)
 		}
 	}
-}
 
-func DoMigration(db *gorm.DB) {
-	err := db.AutoMigrate(
-		// Security entities
-		securityEntity.User{},
-	)
-
-	if err != nil {
-		panic("failed to migrate database: " + err.Error())
+	// Defining initial task status
+	taskStatus := []taskManagementEntity.TaskStatus{
+		{Id: 1, Name: "to_do", Color: "#03A9F4"},
+		{Id: 2, Name: "in_progress", Color: "#FF9800"},
+		{Id: 3, Name: "done", Color: "#21b421"},
 	}
 
-	loadInitialData(db)
+	// Insert the initial task status into the database
+	for _, status := range taskStatus {
+		result := db.FirstOrCreate(&status)
+		if result.Error != nil {
+			log.Println("Could not insert initial task status:", result.Error)
+		}
+	}
+
+	// Defining initial task status
+	tasks := []taskManagementEntity.Task{
+		{
+			Id:          1,
+			Title:       "Task #1 from admin",
+			Description: "This is the first registered task",
+			StatusId:    1,
+			CreatedById: "7414a010-b098-448c-8dd0-898c495bd9d6",
+		},
+
+		{
+			Id:          2,
+			Title:       "Task #2 from admin",
+			Description: "This is the second registered task",
+			StatusId:    2,
+			CreatedById: "7414a010-b098-448c-8dd0-898c495bd9d6",
+		},
+	}
+
+	// Insert the initial task status into the database
+	for _, task := range tasks {
+		result := db.FirstOrCreate(&task)
+		if result.Error != nil {
+			log.Println("Could not insert initial task:", result.Error)
+		}
+	}
+
 }

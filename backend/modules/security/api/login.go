@@ -33,7 +33,6 @@ func (p *SecurityApi) authenticate(c echo.Context) error {
 
 func (p *SecurityApi) refreshToken(c echo.Context) error {
 	userId, _ := c.Get("userId").(string)
-
 	token, _ := p.securityService.RefreshToken(userId)
 
 	responseData := map[string]string{

@@ -50,6 +50,10 @@ func (l *user) UserExists(userName string) (bool, error) {
 	return l.userRepo.UserExists(userName)
 }
 
+func (l *user) ListUsers() ([]securityEntity.User, error) {
+	return l.userRepo.ListUsers()
+}
+
 func NewUserService(
 	userRepo securityContract.UserRepository,
 	securityRepo securityContract.SecurityRepository,
