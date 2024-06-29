@@ -8,16 +8,18 @@
     import Filter from './Filter.vue'
     import { onMounted, ref } from 'vue'
     import { useRouter } from 'vue-router'
+    import { useI18n } from "vue-i18n"
     
     const router = useRouter();    
-    
+    const i18n = useI18n();
+
     const props = defineProps<{
         TaskRepository : TaskContract,
     }>();
 
     const taskRecordId = ref(0);
     const formRef = ref();
-    const taskStatus = ref<TaskStatus[]>([]);
+    const taskStatus = ref<GenericKeyValue[]>([]);
     
     const {
         loadingRecords,
@@ -67,7 +69,11 @@
     
     getAllTasks();
 
-    getTaskStatus().then((status: TaskStatus[])=>{
+    getTaskStatus().then((statusList: TaskStatus[])=>{
+        const status = statusList.map((x) => {
+            return {id: x.id, name: i18n.t(`TASK.TASK_STATUS.${x.name}`)}
+        });
+
         taskStatus.value = status || [];
     });
 
@@ -103,6 +109,7 @@
         
                     <Column field="title" :header="$t('TASK.title')" style="width: 30%"></Column>
                     <Column field="description" :header="$t('TASK.description')" style="width: 30%"></Column>
+                    <Column field="createdBy" :header="$t('TASK.created_by')" style="width: 20%"></Column>
                     <Column field="isActive" :header="$t('SECURITY.status')" style="width: 8%; padding-left: 25px;">
                         <template #body="{ data }">
                             <StatusIndicator :style="{ '--bg-color': (data.color) }" :label="$t('TASK.TASK_STATUS.' + (data.status))"></StatusIndicator>
@@ -178,7 +185,7 @@
     
     <PDialog  @hide="onDialogClose" v-model:visible="showDialog" :closeOnEscape="false" modal :header="$t('TASK.' + (taskId === '' ? 'task_registration': 'task_update') )" :style="{ width: '88vw' }">
         <div>
-            <TaskForm :taskRepositoy="TaskRepository" :taskId="taskRecordId" ref="formRef" />
+            <TaskForm :taskRepositoy="TaskRepository" :taskStatus="taskStatus" :taskId="taskRecordId" ref="formRef" />
         </div>
         <template #footer>            
             <PButton @click="showDialog = false" severity="warning" :label="$t('COMMON_BUTTONS.cancel')" icon="pi pi-times" />

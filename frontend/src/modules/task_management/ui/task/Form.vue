@@ -1,9 +1,11 @@
 <script setup lang="ts">
     import type { TaskContract } from '../../domain/contract/taskContract'
     import { useTask } from '../../composable/useTask'
+    import Dropdown from 'primevue/dropdown'
 
     const props = defineProps<{
 		taskRepositoy: TaskContract,
+        taskStatus: GenericKeyValue[],
         taskId?: number,
 	}>();
 
@@ -46,6 +48,11 @@
                 <span class="p-float-label">
 					<InputText v-model="taskForm.description" />
                     <label for="description">{{ $t('TASK.description') }}</label>
+                </span>
+
+                <span class="p-float-label">
+                    <Dropdown placeholder="Select an item" :showClear="true" optionLabel="name" v-model="taskForm.statusId" optionValue="id" :options="taskStatus" filter  />
+                    <label for="description">{{ $t('SECURITY.status') }}</label>
                 </span>
 			</div>
         </div>

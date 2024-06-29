@@ -53,6 +53,7 @@ export default {
         title: "Title",
         description: "Description",
         task_registration: "Task registration",
+        created_by: "Created by",
         TASK_STATUS: {
             to_do: "To Do",
             in_progress: "In Progress",

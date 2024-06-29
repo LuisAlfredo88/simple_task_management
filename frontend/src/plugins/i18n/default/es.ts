@@ -53,7 +53,8 @@ export default {
         task_list: "Listado de tareas",
         title: "Título",
         description: "Descripción",
-        task_registration: "Registro de tarea",        
+        task_registration: "Registro de tarea",  
+        created_by: "Creado por",      
         TASK_STATUS: {
             to_do: "Pendiente",
             in_progress: "En proceso",
