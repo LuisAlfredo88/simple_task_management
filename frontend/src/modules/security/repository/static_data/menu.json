@@ -1,13 +1,5 @@
 [
     {
-        "name": "MENU.dashboard",
-        "path": "/#/",
-        "icon": "pi-microsoft",
-        "privileges": [],
-        "children": []
-    },
-
-    {
         "name": "MENU.security",
         "path": "",
         "icon": "pi-shield",

@@ -1,4 +1,4 @@
-import type { AuthContract } from '../domain/contract/AuthContract'
+import type { AuthContract } from '../domain/contract/authContract'
 import { getEncrypt, setEncrypt, unset as unsetStore } from '@/modules/shared/utility/localStorage'
 import type { Auth } from '../domain/entity/auth'
 import { ref } from 'vue'

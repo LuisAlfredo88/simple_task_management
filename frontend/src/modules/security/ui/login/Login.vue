@@ -1,6 +1,6 @@
 
 <script setup lang="ts">
-    import type { AuthContract } from "../../domain/contract/AuthContract"
+    import type { AuthContract } from "../../domain/contract/authContract"
     import { useAuth } from '../../composable/useAuth'
     import { useTheme } from '@/modules/system/composable/useTheme'
 
@@ -32,7 +32,7 @@
                             <span class="p-inputgroup-addon">
                                 <i class="pi pi-user"></i>
                             </span>
-                            <InputText v-model="user" placeholder="Username" />
+                            <InputText required="true" v-model="user" placeholder="Username" />
                         </div>
                     </div>
                     <div>
@@ -40,7 +40,7 @@
                             <span class="p-inputgroup-addon">
                                 <i class="pi pi-lock"></i>
                             </span>
-                            <InputText type="password" v-model="password" placeholder="Password" />
+                            <InputText required="true" type="password" v-model="password" placeholder="Password" />
                         </div>
                     </div>
 

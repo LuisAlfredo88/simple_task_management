@@ -9,7 +9,6 @@ export const useAuthStore = defineStore('auth', () => {
 
     const token = ref(session?.token);
     const systemMenu = ref( (session?.menu || []) as Record<string, any>[])
-    const privileges = ref(session?.privileges || []);
     const user = ref(session?.user || {});
   
     function setMenu(menu: Record<string, any>[]) {
@@ -25,7 +24,7 @@ export const useAuthStore = defineStore('auth', () => {
     }
 
     return { 
-        systemMenu, token, privileges, user,
+        systemMenu, token, user,
         setMenu, setToken, setUser
     }
 })

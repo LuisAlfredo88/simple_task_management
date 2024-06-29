@@ -5,11 +5,11 @@ import { useAuth } from "@/modules/security/composable/useAuth";
 export const DEFAULT_API_PATH = import.meta.env.VITE_API_URL;
 
 export const get = (url: string, params: Record<string, unknown> = {}): Promise<any> => {
-    return axios.get<Response>(url, params);
+    return axios.get<Response>(url, { params });
 }
 
-export const post = (url: string, data: Record<string, unknown>): Promise<any> => {
-    return axios.post(url, data);
+export const post = (url: string, params: Record<string, unknown>): Promise<any> => {
+    return axios.post(url, params);
 }
 
 export const put = (url: string, data: Record<string, unknown>): Promise<any> => {

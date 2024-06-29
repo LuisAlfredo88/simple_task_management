@@ -4,6 +4,7 @@ import Login from '@/modules/security/ui/login/Login.vue'
 
 import authRepository from '@/modules/security/repository/authRepository'
 import { useSecurity } from '@/modules/security/composable/useSecurity'
+import SecurityRouter from '@/modules/security/router/securityRouter'
 
 const router = createRouter({
 	history: createWebHashHistory(),
@@ -27,6 +28,15 @@ const router = createRouter({
 					name: 'home',
 					component: () => import('../views/Home.vue')
 				},
+			]
+		},
+
+		{
+			path: '/security',
+			name: 'security',
+			component: MainView,
+			children: [
+				...SecurityRouter		
 			]
 		},
 	]
