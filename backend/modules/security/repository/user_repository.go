@@ -34,21 +34,14 @@ func (l *userRepo) GetAllUsers(filter *sharedModel.CriteriaFilter) ([]securityEn
 	query := l.db.Model(securityEntity.User{})
 
 	if search, ok := (filter.Filters)["search"]; ok && search != "" {
-		query = query.Where("concat(name, ' ', user_name, ' ', last_name) ILIKE ?", "%"+search.(string)+"%")
+		query = query.Where("concat(name, ' ', user_name, ' ', last_name) LIKE ?", "%"+search.(string)+"%")
 	}
 
-	if isActive, ok := (filter.Filters)["status"]; ok && isActive != "" {
-		query = query.Where("is_active = ?", isActive.(bool))
+	if isActive, ok := (filter.Filters)["isActive"]; ok && isActive != "" {
+		query = query.Where("is_active = ?", isActive)
 	}
 
-	if dateFrom, ok := (filter.Filters)["creationDateFrom"]; ok && dateFrom != "" {
-		query = query.Where("created_at >= ?", dateFrom)
-	}
-
-	if dateTo, ok := (filter.Filters)["creationDateTo"]; ok && dateTo != "" {
-		query = query.Where("created_at <= ?", dateTo)
-	}
-
+	// Getting records count
 	total := gormUtil.GetCount(l.db, query)
 
 	query = query.Limit(int(filter.Limit))

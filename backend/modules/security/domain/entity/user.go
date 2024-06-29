@@ -3,7 +3,6 @@ package domain
 import (
 	"encoding/json"
 	"errors"
-	"time"
 )
 
 type User struct {
@@ -13,8 +12,7 @@ type User struct {
 	UserName string `gorm:"size:50" json:"userName"`
 	Password string `gorm:"size:255" json:"password,omitempty"`
 	// IsActive field usually goes boolean, but bool is not supported on Sqlite
-	IsActive  int8      `json:"isActive"`
-	CreatedAt time.Time `json:"createdAt"`
+	IsActive int8 `json:"isActive"`
 }
 
 func (p User) MarshalJSON() ([]byte, error) {
