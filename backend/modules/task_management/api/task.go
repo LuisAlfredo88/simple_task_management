@@ -29,6 +29,7 @@ func (p *TaskManagementApi) getAllTasks(c echo.Context) error {
 	search := c.QueryParam("search")
 	createdBy := c.QueryParam("createdBy")
 	assignedTo := c.QueryParam("assignedTo")
+	userId, _ := c.Get("userId").(string)
 
 	limit, err := strconv.Atoi(limitStr)
 
@@ -50,6 +51,7 @@ func (p *TaskManagementApi) getAllTasks(c echo.Context) error {
 			"search":     search,
 			"createdBy":  createdBy,
 			"assignedTo": assignedTo,
+			"loggedUser": userId,
 		},
 	}
 

@@ -12,17 +12,23 @@ type task struct {
 	taskManagementRepo taskManagementContract.TaskRepository
 }
 
-func (l *task) Save(task *taskManagementEntity.Task, userId string) (taskManagementEntity.Task, error) {
+func (l *task) Save(task *taskManagementEntity.Task, userId string) (taskDto.TaskRecord, error) {
 	// Setting logged user as the creator of the task
 	if task.Id == 0 {
 		task.CreatedById = userId
 	}
 
 	if err := task.Validate(); err != nil {
-		return taskManagementEntity.Task{}, err
+		return taskDto.TaskRecord{}, err
 	}
 
-	return l.taskRepo.Save(task)
+	taskRecord, err := l.taskRepo.Save(task)
+
+	if err != nil {
+		return taskDto.TaskRecord{}, err
+	}
+
+	return l.taskManagementRepo.GetTaskRecordById(taskRecord.Id)
 }
 
 func (l *task) GetAllTasks(filter *sharedModel.CriteriaFilter) ([]taskDto.TaskRecord, int64, error) {
