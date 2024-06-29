@@ -16,14 +16,15 @@ func (TaskStatus) TableName() string {
 }
 
 type Task struct {
-	Id          uint                  `gorm:"primaryKey; autoIncrement" json:"id"`
-	Title       string                `gorm:"size:100" json:"title"`
-	Description string                `gorm:"size:255" json:"description"`
-	Status      TaskStatus            `json:"status"`
-	StatusId    uint                  `json:"statusId"`
-	CreatedBy   securityEntity.User   `json:"-"`
-	CreatedById string                `json:"createdBy"`
-	UserTasks   []securityEntity.User `gorm:"many2many:user_tasks;"`
+	Id           uint                `gorm:"primaryKey; autoIncrement" json:"id"`
+	Title        string              `gorm:"size:100" json:"title"`
+	Description  string              `gorm:"size:255" json:"description"`
+	Status       TaskStatus          `json:"status"`
+	StatusId     uint                `json:"statusId"`
+	CreatedBy    securityEntity.User `json:"-"`
+	CreatedById  string              `json:"createdBy"`
+	AssignedTo   securityEntity.User `json:"-"`
+	AssignedToId string              `gorm:"default:null" json:"assignedTo"`
 }
 
 func (u *Task) Validate() error {
@@ -35,8 +36,12 @@ func (u *Task) Validate() error {
 		return errors.New("must specify task description")
 	}
 
-	if u.StatusId == 0 {
+	if u.StatusId == 0 && u.Status.Id == 0 {
 		return errors.New("must specify status")
+	}
+
+	if u.Id == 0 && u.CreatedById == "" && u.CreatedBy.Id == "" {
+		return errors.New("must specify created by")
 	}
 
 	return nil

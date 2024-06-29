@@ -27,6 +27,7 @@ func (p *TaskManagementApi) getAllTasks(c echo.Context) error {
 	status := c.QueryParam("status")
 	search := c.QueryParam("search")
 	createdBy := c.QueryParam("createdBy")
+	assignedTo := c.QueryParam("assignedTo")
 
 	limit, err := strconv.Atoi(limitStr)
 
@@ -44,9 +45,10 @@ func (p *TaskManagementApi) getAllTasks(c echo.Context) error {
 		Limit: int32(limit),
 		Skip:  int32(skip),
 		Filters: map[string]interface{}{
-			"status":    status,
-			"search":    search,
-			"createdBy": createdBy,
+			"status":     status,
+			"search":     search,
+			"createdBy":  createdBy,
+			"assignedTo": assignedTo,
 		},
 	}
 

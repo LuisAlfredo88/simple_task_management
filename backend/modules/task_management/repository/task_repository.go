@@ -34,10 +34,12 @@ func (l *taskRepo) GetAllTasks(filter *sharedModel.CriteriaFilter) ([]taskDto.Ta
 	query := l.db.Table("tasks t").
 		Joins("JOIN task_status ts ON t.status_id = ts.id").
 		Joins("JOIN users u ON t.created_by_id = u.id").
+		Joins("LEFT JOIN users au ON t.assigned_to_id = au.id").
 		Select(`
 		t.*, ts.name as status, 
 		ts.color, 
-		CONCAT(u.name, ' ', u.last_name) as created_by
+		CONCAT(u.name, ' ', u.last_name) as created_by,
+		CONCAT(au.name, ' ', au.last_name) as assigned_to
 	`)
 
 	if search, ok := (filter.Filters)["search"]; ok && search != "" {
@@ -50,6 +52,10 @@ func (l *taskRepo) GetAllTasks(filter *sharedModel.CriteriaFilter) ([]taskDto.Ta
 
 	if createdBy, ok := (filter.Filters)["createdBy"]; ok && createdBy != "" {
 		query = query.Where("t.created_by_id = ?", createdBy)
+	}
+
+	if assignedTo, ok := (filter.Filters)["assignedTo"]; ok && assignedTo != "" {
+		query = query.Where("t.assigned_to_id = ?", assignedTo)
 	}
 
 	total := gormUtil.GetCount(l.db, query)

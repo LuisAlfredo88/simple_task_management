@@ -13,13 +13,13 @@ type task struct {
 }
 
 func (l *task) Save(task *taskManagementEntity.Task, userId string) (taskManagementEntity.Task, error) {
-	if err := task.Validate(); err != nil {
-		return taskManagementEntity.Task{}, err
-	}
-
 	// Setting logged user as the creator of the task
 	if task.Id == 0 {
 		task.CreatedById = userId
+	}
+
+	if err := task.Validate(); err != nil {
+		return taskManagementEntity.Task{}, err
 	}
 
 	return l.taskRepo.Save(task)
