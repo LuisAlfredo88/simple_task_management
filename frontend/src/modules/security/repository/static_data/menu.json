@@ -1,0 +1,24 @@
+[
+    {
+        "name": "MENU.dashboard",
+        "path": "/#/",
+        "icon": "pi-microsoft",
+        "privileges": [],
+        "children": []
+    },
+
+    {
+        "name": "MENU.security",
+        "path": "",
+        "icon": "pi-shield",
+        "privileges": [],
+        "children": [
+            {
+                "name": "MENU.users",
+                "path": "/#/users",
+                "icon": "pi-user",
+                "privileges": []
+            }         
+        ]
+    }            
+]
