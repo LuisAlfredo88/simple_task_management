@@ -16,6 +16,7 @@ func (l *SecurityApi) registerUserHandlers(api *echo.Group) {
 	// Setting up security handlers
 	api.POST("/users", l.register)
 	api.GET("/users", l.getAllUsers)
+	api.GET("/users_list", l.listUsers)
 	api.GET("/users/:id", l.getUserById)
 	api.GET("/users/:name/exists", l.userExists)
 	api.PATCH("/users/:user_id/:status", l.toogleUserStatus)
@@ -123,4 +124,16 @@ func (p *SecurityApi) userExists(c echo.Context) error {
 	return c.JSON(http.StatusOK, response{
 		Exists: userExists,
 	})
+}
+
+func (p *SecurityApi) listUsers(c echo.Context) error {
+	users, err := p.userService.ListUsers()
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, sharedModel.ResponseMessage{
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, users)
 }

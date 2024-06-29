@@ -80,13 +80,15 @@ func loadInitialData(db *gorm.DB) {
 			Title:       "Task #1 from admin",
 			Description: "This is the first registered task",
 			StatusId:    1,
+			CreatedById: "7414a010-b098-448c-8dd0-898c495bd9d6",
 		},
 
 		{
 			Id:          2,
-			Title:       "Task #1 from admin",
+			Title:       "Task #2 from admin",
 			Description: "This is the second registered task",
 			StatusId:    2,
+			CreatedById: "7414a010-b098-448c-8dd0-898c495bd9d6",
 		},
 	}
 

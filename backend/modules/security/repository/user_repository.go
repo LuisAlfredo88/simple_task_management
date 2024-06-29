@@ -86,6 +86,15 @@ func (l *userRepo) UserExists(userName string) (bool, error) {
 	return exists, err
 }
 
+func (l *userRepo) ListUsers() ([]securityEntity.User, error) {
+	var users = []securityEntity.User{}
+	err := l.db.Model(&securityEntity.User{}).
+		Find(&users).
+		Error
+
+	return users, err
+}
+
 func NewUserRepo(db *gorm.DB) securityService.UserRepository {
 	return &userRepo{
 		db: db,

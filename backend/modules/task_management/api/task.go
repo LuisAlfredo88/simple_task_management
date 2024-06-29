@@ -52,17 +52,20 @@ func (p *TaskManagementApi) getAllTasks(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	users, totalRecords, _ := p.taskService.GetAllTasks(&criteria)
+	tasks, totalRecords, _ := p.taskService.GetAllTasks(&criteria)
 	c.Response().Header().Set("X-TotalRecords", fmt.Sprintf("%d", totalRecords))
-	return c.JSON(http.StatusOK, users)
+	return c.JSON(http.StatusOK, tasks)
 }
 
 func (p *TaskManagementApi) register(c echo.Context) error {
-	userData := new(taskManagementEntity.Task)
+	userId, _ := c.Get("userId").(string)
+	taskData := new(taskManagementEntity.Task)
+	// Setting logged user as the creator of the task
+	taskData.CreatedById = userId
 
-	c.Bind(userData)
+	c.Bind(taskData)
 
-	user, err := p.taskService.Save(userData)
+	task, err := p.taskService.Save(taskData)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, sharedModel.ResponseMessage{
@@ -70,7 +73,7 @@ func (p *TaskManagementApi) register(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusOK, user)
+	return c.JSON(http.StatusOK, task)
 }
 
 func (p *TaskManagementApi) getTaskById(c echo.Context) error {
@@ -81,7 +84,7 @@ func (p *TaskManagementApi) getTaskById(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	users, err := p.taskService.GetTaskById(uint(taskId))
+	tasks, err := p.taskService.GetTaskById(uint(taskId))
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, sharedModel.ResponseMessage{
@@ -89,11 +92,11 @@ func (p *TaskManagementApi) getTaskById(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusOK, users)
+	return c.JSON(http.StatusOK, tasks)
 }
 
 func (p *TaskManagementApi) changeTaskStatus(c echo.Context) error {
-	userIdParam := c.Param("task_id")
+	taskIdParam := c.Param("task_id")
 	statusParam := c.Param("status")
 
 	status, err := strconv.Atoi(statusParam)
@@ -103,14 +106,14 @@ func (p *TaskManagementApi) changeTaskStatus(c echo.Context) error {
 		})
 	}
 
-	userId, err := strconv.Atoi(userIdParam)
+	taskId, err := strconv.Atoi(taskIdParam)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, sharedModel.ResponseMessage{
 			Message: err.Error(),
 		})
 	}
 
-	err = p.taskService.ChangeTaskStatus(uint(userId), uint(status))
+	err = p.taskService.ChangeTaskStatus(uint(taskId), uint(status))
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, sharedModel.ResponseMessage{

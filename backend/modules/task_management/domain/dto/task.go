@@ -6,4 +6,5 @@ type TaskRecord struct {
 	Description string `json:"description"`
 	Status      string `json:"status"`
 	Color       string `json:"color"`
+	CreatedBy   string `json:"createdBy"`
 }

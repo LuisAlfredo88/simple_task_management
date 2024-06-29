@@ -28,12 +28,15 @@ func (l *taskRepo) GetAllTasks(filter *sharedModel.CriteriaFilter) ([]taskDto.Ta
 
 	query := l.db.Table("tasks t").
 		Joins("JOIN task_status ts ON t.status_id = ts.id").
+		Joins("JOIN users u ON t.created_by_id = u.id").
 		Select(`
-		t.*, ts.name as status, ts.color
+		t.*, ts.name as status, 
+		ts.color, 
+		CONCAT(u.name, ' ', u.last_name) as created_by
 	`)
 
 	if search, ok := (filter.Filters)["search"]; ok && search != "" {
-		query = query.Where("concat(t.title, ' ', t.description) LIKE ?", "%"+search.(string)+"%")
+		query = query.Where("CONCAT(t.title, ' ', t.description) LIKE ?", "%"+search.(string)+"%")
 	}
 
 	if status, ok := (filter.Filters)["status"]; ok && status != "" {

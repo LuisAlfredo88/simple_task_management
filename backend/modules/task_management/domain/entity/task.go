@@ -2,6 +2,7 @@ package domain
 
 import (
 	"errors"
+	securityEntity "stm/modules/security/domain/entity"
 )
 
 type TaskStatus struct {
@@ -15,11 +16,14 @@ func (TaskStatus) TableName() string {
 }
 
 type Task struct {
-	Id          uint       `gorm:"primaryKey;autoIncrement" json:"id"`
-	Title       string     `gorm:"size:100" json:"title"`
-	Description string     `gorm:"size:255" json:"description"`
-	Status      TaskStatus `json:"status"`
-	StatusId    uint       `json:"status_id"`
+	Id          uint                  `gorm:"primaryKey; autoIncrement" json:"id"`
+	Title       string                `gorm:"size:100" json:"title"`
+	Description string                `gorm:"size:255" json:"description"`
+	Status      TaskStatus            `json:"status"`
+	StatusId    uint                  `json:"statusId"`
+	CreatedBy   securityEntity.User   `json:"-"`
+	CreatedById string                `json:"createdBy"`
+	UserTasks   []securityEntity.User `gorm:"many2many:user_tasks;"`
 }
 
 func (u *Task) Validate() error {
@@ -29,6 +33,10 @@ func (u *Task) Validate() error {
 
 	if u.Description == "" {
 		return errors.New("must specify task description")
+	}
+
+	if u.StatusId == 0 {
+		return errors.New("must specify status")
 	}
 
 	return nil

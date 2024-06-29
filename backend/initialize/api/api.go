@@ -2,6 +2,8 @@ package api
 
 import (
 	"net/http"
+	"stm/shared/utility/jwt"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -21,8 +23,6 @@ func NewHTTPServer(lc fx.Lifecycle, srv *http.ServeMux, db *gorm.DB) *API {
 
 func UserHeaderMiddleware(next echo.HandlerFunc, db *gorm.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		a := c.Path()
-		println(a)
 		if c.Path() == "/security/authenticate" {
 			return next(c)
 		}
@@ -32,6 +32,15 @@ func UserHeaderMiddleware(next echo.HandlerFunc, db *gorm.DB) echo.HandlerFunc {
 		if authData == "" {
 			return echo.NewHTTPError(http.StatusUnauthorized, "invalid request")
 		}
+
+		token := strings.Fields(authData)[1]
+		jwtData, err := jwt.Parse(token)
+
+		if err != nil {
+			return echo.NewHTTPError(http.StatusUnauthorized, "invalid request")
+		}
+
+		c.Set("userId", jwtData["uid"])
 
 		return next(c)
 	}
