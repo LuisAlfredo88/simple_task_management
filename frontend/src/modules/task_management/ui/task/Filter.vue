@@ -37,7 +37,14 @@
         <div class="flexbox-grid">
             <span class="p-float-label">
                 <Dropdown placeholder="Select an item" :showClear="true" optionLabel="name" v-model="filter.createdBy" optionValue="id" :options="users" filter  />
-                <label for="Origin">{{ $t('TASK.created_by') }}</label>
+                <label for="created_by">{{ $t('TASK.created_by') }}</label>
+            </span>
+        </div>
+
+        <div class="flexbox-grid">
+            <span class="p-float-label">
+                <Dropdown placeholder="Select an item" :showClear="true" optionLabel="name" v-model="filter.assignedTo" optionValue="id" :options="users" filter  />
+                <label for="assigned_to">{{ $t('TASK.assigned_to') }}</label>
             </span>
         </div>
 

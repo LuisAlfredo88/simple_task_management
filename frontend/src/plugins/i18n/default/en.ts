@@ -55,6 +55,7 @@ export default {
         task_registration: "Task registration",
         must_specify_status: "Must specify task status",
         created_by: "Created by",
+        assigned_to: "Assigned to",
         TASK_STATUS: {
             to_do: "To Do",
             in_progress: "In Progress",

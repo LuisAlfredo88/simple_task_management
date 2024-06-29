@@ -126,9 +126,10 @@
                         </div>
                     </template>
         
-                    <Column field="title" :header="$t('TASK.title')" style="width: 30%"></Column>
-                    <Column field="description" :header="$t('TASK.description')" style="width: 30%"></Column>
+                    <Column field="title" :header="$t('TASK.title')" style="width: 25%"></Column>
+                    <Column field="description" :header="$t('TASK.description')" style="width: 25%"></Column>
                     <Column field="createdBy" :header="$t('TASK.created_by')" style="width: 20%"></Column>
+                    <Column field="assignedTo" :header="$t('TASK.assigned_to')" style="width: 20%"></Column>                    
                     <Column field="isActive" :header="$t('SECURITY.status')" style="width: 8%; padding-left: 25px;">
                         <template #body="{ data }">
                             <StatusIndicator :style="{ '--bg-color': (data.color) }" :label="$t('TASK.TASK_STATUS.' + (data.status))"></StatusIndicator>
@@ -165,7 +166,7 @@
                 </section>
 
                 <section class="mobile-card-wrapper">
-                    <MobileGridCard v-for="task in tasks" v-bind:key="task.id">
+                    <MobileGridCard v-for="task in tasks" v-bind:key="task.id" :showDetailButton="true">
                         
                         <template #left>
                             <h3>{{ task.title }}</h3>
@@ -181,6 +182,26 @@
                             <!-- <PButton @click="confirmStatusChange($event, task)" icon="pi pi-lock" text /> -->
                         </template>
     
+                        <template #detail>
+                            <table>
+                                <tr>
+                                    <td>{{ $t('TASK.title') }}</td>
+                                    <td>{{ task.title }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ $t('TASK.description') }}</td>
+                                    <td>{{ task.description }}</td>
+                                </tr>                                
+                                <tr>
+                                    <td>{{ $t('TASK.created_by') }}</td>
+                                    <td>{{ task.createdBy }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ $t('TASK.assigned_to') }}</td>
+                                    <td>{{ task.assignedTo }}</td>
+                                </tr>                                                                                                                                                                  
+                            </table>                            
+                        </template>
                     </MobileGridCard>
                 </section>
                 <ProgressSpinner v-if="loadingRecords" style="width: 25px; height: 25px; margin: auto" strokeWidth="4" animationDuration="1.5s" />
@@ -204,7 +225,7 @@
     
     <PDialog  @hide="onDialogClose" v-model:visible="showDialog" :closeOnEscape="false" modal :header="$t('TASK.' + (taskId === '' ? 'task_registration': 'task_update') )" :style="{ width: '88vw' }">
         <div>
-            <TaskForm :taskRepositoy="TaskRepository" :taskStatus="taskStatus" :taskId="taskRecordId" ref="formRef" />
+            <TaskForm :taskRepositoy="TaskRepository" :users="users" :taskStatus="taskStatus" :taskId="taskRecordId" ref="formRef" />
         </div>
         <template #footer>            
             <PButton @click="showDialog = false" severity="warning" :label="$t('COMMON_BUTTONS.cancel')" icon="pi pi-times" />

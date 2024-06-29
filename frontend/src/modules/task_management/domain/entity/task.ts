@@ -4,7 +4,8 @@ export type Task  = {
     id: number;
     title: string;
     description: string;
-    statusId: number;   
+    statusId: number;
+    assignedTo: string;   
 }
 
 export type TaskRecord  = {
@@ -26,6 +27,7 @@ export type TaskFilter = CriteriaFilter & {
     search?: string;
     statusId: number; 
     createdBy: string; 
+    createdTo: string; 
 }
 
 export const validateTask = (task: Task) => {

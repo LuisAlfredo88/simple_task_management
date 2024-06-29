@@ -55,7 +55,8 @@ export default {
         description: "Descripción",
         task_registration: "Registro de tarea",  
         must_specify_status: "Debe completar el estado de la tarea",
-        created_by: "Creado por",      
+        created_by: "Creado por",     
+        assigned_to: "Asignado a", 
         TASK_STATUS: {
             to_do: "Pendiente",
             in_progress: "En proceso",
