@@ -1,4 +1,5 @@
 import TaskRepository from '../repository/taskRepository'
+import UserRepository from '../../security/repository/userRepository'
 
 export default [
     {
@@ -7,6 +8,7 @@ export default [
         component: () => import('../ui/task/Task.vue'),
         props: {
             TaskRepository,
+            UserRepository
         }
     },
 ];

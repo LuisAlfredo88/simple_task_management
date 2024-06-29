@@ -54,6 +54,7 @@ export default {
         title: "Título",
         description: "Descripción",
         task_registration: "Registro de tarea",  
+        must_specify_status: "Debe completar el estado de la tarea",
         created_by: "Creado por",      
         TASK_STATUS: {
             to_do: "Pendiente",

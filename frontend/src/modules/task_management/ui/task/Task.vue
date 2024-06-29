@@ -1,6 +1,9 @@
 <script setup lang="ts">
     import type { TaskContract } from '../../domain/contract/taskContract'
+    import type { UserContract } from '../../../security/domain/contract/userContract'
     import { useTask } from '../../composable/useTask'
+    import { useUser } from '@/modules/security/composable/useUser'
+    import type { User } from '@/modules/security/domain/entity/user'
     import StatusIndicator from '@/components/widgets/StatusIndicator.vue'
     import type { Task, TaskStatus } from '../../domain/entity/task'
     import ConfirmPopup from 'primevue/confirmpopup'
@@ -15,11 +18,13 @@
 
     const props = defineProps<{
         TaskRepository : TaskContract,
+        UserRepository : UserContract,
     }>();
 
     const taskRecordId = ref(0);
     const formRef = ref();
     const taskStatus = ref<GenericKeyValue[]>([]);
+    const users = ref<GenericKeyValue[]>([]);
     
     const {
         loadingRecords,
@@ -34,6 +39,12 @@
         getTaskStatus
     } = useTask({
         taskRepository: props.TaskRepository
+    });
+
+    const {
+        loadUsers
+    } = useUser( {
+        userRepository: props.UserRepository 
     });
 
     const save = async () => {
@@ -75,6 +86,14 @@
         });
 
         taskStatus.value = status || [];
+    });
+
+    loadUsers().then((usersList: User[]) => {
+        const usersMap = usersList.map((x) => {
+            return {id: x.id, name: `${x.name} ${x.lastName}`}
+        });
+
+        users.value = usersMap || [];
     });
 
 </script>
@@ -194,7 +213,7 @@
     </PDialog>
 
     <Sidebar v-model:visible="showFilter"  position="right">
-        <Filter v-model="filter.filters" :taskStatus="taskStatus" @onChage="getAllTasks"></Filter>
+        <Filter v-model="filter.filters" :taskStatus="taskStatus" :users="users" @onChage="getAllTasks"></Filter>
     </Sidebar>
 </template>
 

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-    import type { UserRepository as UserRepo } from '../../domain/contract/userContract'
-    import { useUser } from '../../composable/userComposable'
+    import type { UserContract } from '../../domain/contract/userContract'
+    import { useUser } from '../../composable/useUser'
 
     const props = defineProps<{
-		userRepositoy: UserRepo,
+		userRepositoy: UserContract,
         userId?: string,
 	}>();
 

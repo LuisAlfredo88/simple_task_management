@@ -8,6 +8,8 @@ const loadTasks = async (filter: TaskFilter | null): Promise<GridRecord> => {
         limit: filter?.limit,
         skip: filter?.skip,
         search: filter?.filters.search,
+        createdBy: (filter?.filters?.createdBy === undefined || filter?.filters?.createdBy === null)  
+                ? null : filter.filters.createdBy,       
         status: (filter?.filters?.statusId === undefined || filter?.filters?.statusId === null)  
                 ? null : filter.filters.statusId
     }

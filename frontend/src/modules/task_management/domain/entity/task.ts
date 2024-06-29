@@ -25,12 +25,14 @@ export type TaskStatus = {
 export type TaskFilter = CriteriaFilter & {
     search?: string;
     statusId: number; 
+    createdBy: string; 
 }
 
 export const validateTask = (task: Task) => {
     const dataValidation = [
         { validation: !task.title, error: 'TASK.must_specify_title', tag: 'title' },
         { validation: !task.description, error: 'TASK.must_specify_description', tag: 'description' },
+        { validation: !task.statusId, error: 'TASK.must_specify_status', tag: 'status' },
     ];
 
     validator(dataValidation);
