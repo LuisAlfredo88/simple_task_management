@@ -1,0 +1,16 @@
+[
+    {
+        "name": "MENU.security",
+        "path": "",
+        "icon": "pi-shield",
+        "privileges": [],
+        "children": [
+            {
+                "name": "MENU.users",
+                "path": "/#/users",
+                "icon": "pi-user",
+                "privileges": []
+            }         
+        ]
+    }            
+]
