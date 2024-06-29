@@ -5,6 +5,7 @@ import Login from '@/modules/security/ui/login/Login.vue'
 import authRepository from '@/modules/security/repository/authRepository'
 import { useSecurity } from '@/modules/security/composable/useSecurity'
 import SecurityRouter from '@/modules/security/router/securityRouter'
+import TaskManagerRouter from '@/modules/task_management/router/taskManagementRouter'
 
 const router = createRouter({
 	history: createWebHashHistory(),
@@ -20,14 +21,10 @@ const router = createRouter({
 
 		{
 			path: '/',
-			name: 'main',
+			name: 'task_management',
 			component: MainView,
 			children: [
-				{
-					path: '/',
-					name: 'home',
-					component: () => import('../views/Home.vue')
-				},
+				...TaskManagerRouter		
 			]
 		},
 

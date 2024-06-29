@@ -36,6 +36,7 @@ export default {
         dashboard: 'Dashboard',
         security: 'Seguridad',
         users: 'Usuarios',
+        tasks: "Tareas",
         task_management: 'Administrador de tareas'
     },
 
@@ -48,6 +49,18 @@ export default {
         saved_success: "Registro almacenado satisfactoriamente"
     },
 
+    TASK: {
+        task_list: "Listado de tareas",
+        title: "Título",
+        description: "Descripción",
+        task_registration: "Registro de tarea",        
+        TASK_STATUS: {
+            to_do: "Pendiente",
+            in_progress: "En proceso",
+            done: "Finalizado"
+        },        
+    },
+    
     SECURITY: {
         user_registration: "Registro de usuario",
         user_update: "Modificación de usuario",

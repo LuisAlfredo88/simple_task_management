@@ -35,6 +35,7 @@ export default {
         dashboard: 'Dashboard',
         security: 'Security',
         users: 'Users',
+        tasks: "Tasks",
         task_management: 'Task Management'
     },
 
@@ -46,6 +47,19 @@ export default {
     COMMON_MESSAGES: {
         saved_success: "Record saved successfully"
     },
+
+    TASK: {
+        task_list: "Tasks list",
+        title: "Title",
+        description: "Description",
+        task_registration: "Task registration",
+        TASK_STATUS: {
+            to_do: "To Do",
+            in_progress: "In Progress",
+            done: "Done"
+        },
+    },
+
 
     SECURITY: {
         user_registration: "User Registration",

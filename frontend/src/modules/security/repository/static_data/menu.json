@@ -3,7 +3,6 @@
         "name": "MENU.security",
         "path": "",
         "icon": "pi-shield",
-        "privileges": [],
         "children": [
             {
                 "name": "MENU.users",
@@ -12,5 +11,19 @@
                 "privileges": []
             }         
         ]
-    }            
+    },
+    
+    {
+        "name": "MENU.task_management",
+        "path": "",
+        "icon": "pi-cog",
+        "children": [
+            {
+                "name": "MENU.tasks",
+                "path": "/#/tasks",
+                "icon": "pi-list",
+                "privileges": []
+            }         
+        ]
+    }
 ]

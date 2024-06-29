@@ -1,5 +1,5 @@
 import { post, DEFAULT_API_PATH } from "@/modules/shared/http_handler"
-import type { AuthContract } from "../domain/contract/AuthContract"
+import type { AuthContract } from "../domain/contract/authContract"
 import Menu from './static_data/menu.json'
 
 const authenticate = async (userName: string, password: string): Promise<any> => {
