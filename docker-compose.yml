@@ -1,0 +1,13 @@
+version: '3.5'
+services:
+  api:
+    image: ldilone25/task-management-backend:1.0.0
+    container_name: task-management-backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+
+  web:
+    image: ldilone25/task-management-frontend:1.0.0
+    container_name: task-management-frontend
+    restart: unless-stopped
