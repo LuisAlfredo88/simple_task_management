@@ -144,16 +144,16 @@
                         </div>
                     </template>
         
-                    <Column field="title" :header="$t('TASK.title')" style="width: 25%"></Column>
-                    <Column field="description" :header="$t('TASK.description')" style="width: 25%"></Column>
-                    <Column field="createdBy" :header="$t('TASK.created_by')" style="width: 20%"></Column>
-                    <Column field="assignedTo" :header="$t('TASK.assigned_to')" style="width: 20%"></Column>                    
-                    <Column field="isActive" :header="$t('SECURITY.status')" style="width: 8%; padding-left: 25px;">
+                    <Column field="title" :header="$t('TASK.title')" style="width: 20%"></Column>
+                    <Column field="description" :header="$t('TASK.description')" style="width: 20%"></Column>
+                    <Column field="createdBy" :header="$t('TASK.created_by')" style="width: 15%"></Column>
+                    <Column field="assignedTo" :header="$t('TASK.assigned_to')" style="width: 15%"></Column>                    
+                    <Column field="isActive" :header="$t('SECURITY.status')" style="width: 15%; padding-left: 25px;">
                         <template #body="{ data }">
                             <StatusIndicator :style="{ '--bg-color': (data.color) }" :label="$t('TASK.TASK_STATUS.' + (data.status))"></StatusIndicator>
                         </template>
                     </Column>
-                    <Column :exportable="false" style="width: 20%" :header="$t('COMMON_WORDS.actions')">
+                    <Column :exportable="false" style="width: 10%;" :header="$t('COMMON_WORDS.actions')">
                         <template #body="{ data }">
                             <div class="grid-actions-container">
                                 <PButton v-if="data.createdById === authStore.user.id" @click="openFormDialog(data.id)" class="grid-button-text" icon="pi pi-pencil" v-tooltip.top="'Editar'" text rounded  />
