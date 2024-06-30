@@ -6,8 +6,15 @@ services:
     restart: unless-stopped
     env_file:
       - ./backend/.env
+    ports:
+      - "5000:5000"       
 
   web:
     image: ldilone25/task-management-frontend:1.0.0
     container_name: task-management-frontend
+    depends_on:
+      - api    
     restart: unless-stopped
+    ports:
+      - "5001:80"    
+    
