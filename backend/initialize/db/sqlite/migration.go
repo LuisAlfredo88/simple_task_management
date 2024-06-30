@@ -42,10 +42,19 @@ func loadInitialData(db *gorm.DB) {
 	users := []securityEntity.User{
 		{
 			Id:       "7414a010-b098-448c-8dd0-898c495bd9d6",
-			Name:     "Admin",
+			Name:     "Main",
 			Password: encoding.GetMD5Hash("12345"),
-			LastName: "Main",
-			UserName: "admin",
+			LastName: "First",
+			UserName: "main",
+			IsActive: 1,
+		},
+
+		{
+			Id:       "448c0009-b098-448c-8dd0-7414a0104457",
+			Name:     "Guest",
+			Password: encoding.GetMD5Hash("12345"),
+			LastName: "Second",
+			UserName: "guest",
 			IsActive: 1,
 		},
 	}
@@ -77,7 +86,7 @@ func loadInitialData(db *gorm.DB) {
 	tasks := []taskManagementEntity.Task{
 		{
 			Id:          1,
-			Title:       "Task #1 from admin",
+			Title:       "Task #1 from main user",
 			Description: "This is the first registered task",
 			StatusId:    1,
 			CreatedById: "7414a010-b098-448c-8dd0-898c495bd9d6",
@@ -85,10 +94,19 @@ func loadInitialData(db *gorm.DB) {
 
 		{
 			Id:          2,
-			Title:       "Task #2 from admin",
+			Title:       "Task #2 from main user",
 			Description: "This is the second registered task",
 			StatusId:    2,
 			CreatedById: "7414a010-b098-448c-8dd0-898c495bd9d6",
+		},
+
+		{
+			Id:           3,
+			Title:        "Task #3 from main user",
+			Description:  "This is the third registered task, assigned to the guest user",
+			StatusId:     2,
+			CreatedById:  "7414a010-b098-448c-8dd0-898c495bd9d6",
+			AssignedToId: "448c0009-b098-448c-8dd0-7414a0104457",
 		},
 	}
 

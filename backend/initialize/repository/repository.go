@@ -2,7 +2,7 @@ package repository
 
 import (
 	securityRepo "stm/modules/security/repository"
-	taskManagemtRepo "stm/modules/task_management/repository"
+	taskManagementRepo "stm/modules/task_management/repository"
 
 	"go.uber.org/fx"
 )
@@ -14,6 +14,6 @@ var Module = fx.Options(
 		securityRepo.NewUserRepo,
 
 		// Task managament repo
-		taskManagemtRepo.NewTaskRepo,
+		taskManagementRepo.NewTaskRepo,
 	),
 )
