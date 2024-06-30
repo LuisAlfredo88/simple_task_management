@@ -120,10 +120,10 @@
                             <StatusIndicator :style="{ '--bg-color': (data.isActive ? '#21b421': '#f13c3c') }" :label="$t('SHARED.' + (data.isActive ? 'active': 'inactive'))"></StatusIndicator>
                         </template>
                     </Column>
-                    <Column  :exportable="false" style="width: 20%">
+                    <Column  bodyStyle="text-align:center" :exportable="false" style="width: 20%" :header="$t('COMMON_WORDS.actions')">
                         <template #body="{ data }">
                             <div class="grid-actions-container">
-                                <PButton @click="confirmStatusChange($event, data)" class="grid-button-text" icon="pi pi-lock"  v-tooltip.top="'Eliminar'"  text rounded />
+                                <PButton @click="confirmStatusChange($event, data)" class="grid-button-text" :icon="'pi pi-'+ (data.isActive ? 'lock' : 'lock-open' )"  v-tooltip.top="$t(data.isActive ? 'SECURITY.deactivate': 'SECURITY.activate')"  text rounded />
                                 <PButton @click="openFormDialog(data)" class="grid-button-text" icon="pi pi-pencil" v-tooltip.top="'Editar'" text rounded  />
                             </div>
                         </template>

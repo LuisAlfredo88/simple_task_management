@@ -6,21 +6,21 @@ import { type User, type UserForm, type UserFilter, validateUser } from '../doma
 import { evaluateFilter, resetPageScroll } from '@/modules/shared/utility/records'
 import { ref } from 'vue'
 
-const users = ref<User[]>([]);
-const totalRecords = ref(0);
-
-const filter = ref({
-    filters: {} as UserFilter,
-    limit: 50,
-    skip: 0
-} as CriteriaFilter);
-
 export type userProps = {
     userRepository : UserContract,
     userId?: string
 }
 
 export const useUser = (props: userProps) => {
+    const users = ref<User[]>([]);
+    const totalRecords = ref(0);
+    
+    const filter = ref({
+        filters: {} as UserFilter,
+        limit: 50,
+        skip: 0
+    } as CriteriaFilter);
+
     const lastFilterHash = ref(0);
     const loadingRecords = ref(false);
     const userId = ref('');

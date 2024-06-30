@@ -4,7 +4,8 @@ import {
     LOADING_DATA_ERROR, 
     SAVING_RECORD_ERROR,
     DELETE_RECORD_ERROR,
-    DELETE_RECORD_SUCCESS
+    DELETE_RECORD_SUCCESS,
+    SAVING_RECORD_SUCCESS
 } from '@/modules/shared/domain/commonMessages'
 import type { TaskContract } from '../domain/contract/taskContract'
 import type { Task, TaskFilter, TaskStatus, TaskRecord } from '../domain/entity/task'
@@ -12,21 +13,20 @@ import { validateTask} from '../domain/entity/task'
 import { evaluateFilter, resetPageScroll } from '@/modules/shared/utility/records'
 import { ref } from 'vue'
 
-const tasks = ref<TaskRecord[]>([]);
-const totalRecords = ref(0);
-
-const filter = ref({
-    filters: {} as TaskFilter,
-    limit: 50,
-    skip: 0
-} as CriteriaFilter);
-
 export type taskProps = {
     taskRepository : TaskContract,
     taskId?: string
 }
-
 export const useTask = (props: taskProps) => {
+    const tasks = ref<TaskRecord[]>([]);
+    const totalRecords = ref(0);
+    
+    const filter = ref({
+        filters: {} as TaskFilter,
+        limit: 50,
+        skip: 0
+    } as CriteriaFilter);
+
     const lastFilterHash = ref(0);
     const loadingRecords = ref(false);
     const taskId = ref('');
@@ -84,8 +84,9 @@ export const useTask = (props: taskProps) => {
             }
             
             resetPageScroll();
-            
-            return task;
+            systemMessage({ "type": "success", "description": SAVING_RECORD_SUCCESS });
+
+            return task;    
         } catch(e) {
             const error = getErrorInformation(e as Error, SAVING_RECORD_ERROR);
             systemMessage({ "type": error.type, "description": error.message });
@@ -104,11 +105,6 @@ export const useTask = (props: taskProps) => {
         return null;
     }
 
-    const changeTaskStatus = async (taskId: number, taskStatus: number): Promise<boolean> => {        
-        const result = await props.taskRepository.changeTaskStatus(taskId, taskStatus);
-        return result
-    }
-    
     const getTaskStatus = async (): Promise<TaskStatus[]> => {  
         try {
             return await props.taskRepository.getTaskStatus();          
@@ -154,7 +150,6 @@ export const useTask = (props: taskProps) => {
         getAllTasks,
         saveTask,
         getTaskById,
-        changeTaskStatus,
         getTaskStatus,
         deleteTask
     }
