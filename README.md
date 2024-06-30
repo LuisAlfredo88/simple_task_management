@@ -50,7 +50,7 @@ Steps to get the development environment running.
    http://localhost:5001/
    
    Enter the following credentials:
-   Username: admin
+   Username: main
    Password: 12345
 
 ## Running the project directly
@@ -68,7 +68,7 @@ Steps to get the development environment running.
    ```sh
    http://localhost:5001/
    Enter the following credentials:
-   Username: admin
+   Username: main
    Password: 12345
 
 
@@ -81,10 +81,14 @@ Steps to get the development environment running.
 1. Open a web browser and navigate to the following URL: http://localhost:5001/
 
 2. Enter the following credentials:<br>
-Username: admin<br>
+Username: main<br>
 Password: 12345
 
-3. Once you login, you will be redirected to the task administration section. Please take the following considerations:
+3. For loging using the guest user, please use the following credentials:<br>
+Username: guest<br>
+Password: 12345
+
+4. Once you login, you will be redirected to the task administration section. Please take the following considerations:
     - You will only see the task created by yourself or related to you.
     - You can create a new task by clicking on the "New" button.
     - You can edit a task by clicking on the "Edit" button.
