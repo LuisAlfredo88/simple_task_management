@@ -1,6 +1,5 @@
 import type { TaskContract } from '../../domain/contract/taskContract'
-import type { Task, TaskFilter, TaskRecord, TaskStatus } from '../../domain/entity/task'
-import { post, get, patch, DEFAULT_API_PATH, deleteRecord } from '@/modules/shared/http_handler'
+import type { Task, TaskFilter, TaskRecord } from '../../domain/entity/task'
 import { getTaskRecords, getTaskSingleRecords } from '../adapters/taskRecords'
 
 type RequestResponse = {
@@ -68,18 +67,7 @@ const getTaskById = async (taskId: number): Promise<Task> => {
 }
 
 const changeTaskStatus = async (taskId: number, status: number): Promise<boolean> => {
-	const requestData = await patch(DEFAULT_API_PATH + `/tasks_management/tasks/${taskId}/${status ? 1 : 0}`, {} );
-	return requestData.status === 200;
-}
-
-const taskExists = async (taskName: string): Promise<boolean> => {
-	const requestData = await get(DEFAULT_API_PATH + `/tasks_management/tasks/${taskName}/exists`, {} );
-	return requestData.data.exists;
-}
-
-const getTaskStatus = async (): Promise<TaskStatus[]> => {
-	const requestData = await get(DEFAULT_API_PATH + `/tasks_management/task_status`, {} );
-	return requestData.data;
+	return true;
 }
 
 const deleteTask = async (taskId: number): Promise<boolean> => {
@@ -91,7 +79,5 @@ export default {
 	saveTask,
 	getTaskById,
 	changeTaskStatus,
-	taskExists,
-	getTaskStatus,
 	deleteTask
 } as TaskContract
