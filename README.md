@@ -8,15 +8,18 @@ Simple task management application that provides a streamlined and user-friendly
 - [About the Project](#about-the-project)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
+  - [Project architecture](#project-architecture)
   - [How to run this project(Installation)](#installation)
     - [Using Docker](#using-docker)
     - [Running the project directly](#running-the-project-directly)
     - [Using Make file](#running-the-project-using-make-file)
+   - [Unit Test](#unit-test)
 - [Usage](#usage)
+- [Special features](#special-features)
 - [Environtment Setup(if needed)](#environment-setup)
   - [Docker setup](#docker-setup)
   - [Local environtment](#local-environment)
-
+- [Project images](#project-images)
 ## About the Project
 
 This project is a user-friendly task management application designed to help users efficiently create, update, and delete tasks. The application allows users to manage their tasks with ease by providing a form to add new tasks, a dynamic list to view and update existing tasks, and filtering options to sort tasks by status ("To Do," "In Progress," "Done").
@@ -35,6 +38,11 @@ Optional if you rather to run this project not using docker:
 - Vuejs
 - Go(Golang)
 
+## Project architecture
+- Design pattern: this project uses Hexagonal Architecture on both frontend and backend
+- Database: The project run using SqLite(database file)
+- Frontend: Vuejs
+- Backend: Go(Golang)
 
 ### Installation
 
@@ -62,6 +70,7 @@ Steps to get the development environment running.
 2. Open a CMD or terminal, then locate inside backend folder and run(this is for running the API):
    ```sh
    go mod download
+   go run ./cmd/migration/main.go
    go run ./cmd/bin/main.go
   
 3. Open a web browser and navigate to the following URL:
@@ -71,11 +80,15 @@ Steps to get the development environment running.
    Username: main
    Password: 12345
 
-
-## Running the project using make file
-1. Once you are on the root folder on the project, please open a CMD or terminal and run this command:
+## Unit test
+1. Backend: To run unit test on backend please locate inside backend folder and use the following command in a terminal:
    ```sh
-   make run
+   go test ./...
+   
+2. Frontend: To run unit test on frontend please locate inside frontend folder and use the following command in a terminal:
+   ```sh
+   npm run test:unit
+
 
 ## Usage
 1. Open a web browser and navigate to the following URL: http://localhost:5001/
@@ -93,6 +106,11 @@ Password: 12345
     - You can create a new task by clicking on the "New" button.
     - You can edit a task by clicking on the "Edit" button.
     - You can filter the tasks by clicking the "Filter" button.
+
+## Special features
+1. Implementation of i18n for multi-language support(English, Spanish, etc.).
+2. Mobile friendly design. Not only designed to be responsive but to be easy to use on mobile devices. 
+3. The interface support Dark Mode.
 
 ## Environment setup
 ### Docker-setup
@@ -120,3 +138,10 @@ Password: 12345
 2. For installing golang, please visit the following URL and follow the instructions:
    ```sh
    https://go.dev/doc/install
+
+
+### Project images
+
+![Desktop version](./project_images/desktop.png)
+
+![Mobile version](./project_images/dektop_dark.png)

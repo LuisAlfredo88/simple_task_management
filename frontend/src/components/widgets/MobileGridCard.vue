@@ -52,6 +52,10 @@
         gap: 5px;
     }
 
+    .right {
+        min-width: 95px;
+    }
+
     .actions {
         display: flex;
         justify-content: right;

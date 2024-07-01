@@ -11,7 +11,7 @@ import (
 )
 
 func MigrationDBInstance() *gorm.DB {
-	db, err := gorm.Open(sqlite.Open("./cmd/bin/main.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("./main.db"), &gorm.Config{})
 
 	if err != nil {
 		panic("Error connecting to the database")
