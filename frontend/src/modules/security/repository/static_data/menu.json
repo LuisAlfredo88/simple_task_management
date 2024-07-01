@@ -1,0 +1,29 @@
+[
+    {
+        "name": "MENU.security",
+        "path": "",
+        "icon": "pi-shield",
+        "children": [
+            {
+                "name": "MENU.users",
+                "path": "/#/users",
+                "icon": "pi-user",
+                "privileges": []
+            }         
+        ]
+    },
+    
+    {
+        "name": "MENU.task_management",
+        "path": "",
+        "icon": "pi-cog",
+        "children": [
+            {
+                "name": "MENU.tasks",
+                "path": "/#/tasks",
+                "icon": "pi-list",
+                "privileges": []
+            }         
+        ]
+    }
+]

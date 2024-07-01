@@ -1,0 +1,20 @@
+version: '3.5'
+services:
+  api:
+    image: ldilone25/task-management-backend:1.0.0
+    container_name: task-management-backend
+    environment:
+      - JWT_KEY=aa8b73-9fa0430c-53b486d7-c8c438048c
+      - JWT_ISSUER=TaskManagementIssuer
+      - JWT_AUDIENCE=TaskManagementAudience
+    ports:
+      - "5000:5000"       
+
+  web:
+    image: ldilone25/task-management-frontend:1.0.0
+    container_name: task-management-frontend
+    depends_on:
+      - api    
+    ports:
+      - "5001:80"    
+    
