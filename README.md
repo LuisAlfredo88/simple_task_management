@@ -51,7 +51,7 @@ Steps to get the development environment running.
 ## Using docker
 1. Once you are on the root folder on the project, please open a CMD or terminal and run this command:
    ```sh
-   # Pre-build version
+   # Pre-build version (docker image stored on docker hub)
    docker-compose up
 
    # Build version
@@ -131,6 +131,7 @@ Password: 12345
 1. Implementation of i18n for multi-language support(English, Spanish, etc.).
 2. Mobile friendly design. Not only designed to be responsive but to be easy to use on mobile devices. 
 3. The interface support Dark Mode.
+4. Scroll pagination.
 
 ## Environment setup
 ### Docker-setup
