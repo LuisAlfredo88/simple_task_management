@@ -58,7 +58,7 @@ Steps to get the development environment running.
 
    # Backend:
    docker-compose -f ./backend/docker-compose-build.yml up
-   
+
    # Frontend
    docker-compose -f ./frontend/docker-compose-build.yml up
 
@@ -92,12 +92,23 @@ Steps to get the development environment running.
 ## Unit test
 1. Backend: To run unit test on backend please locate inside backend folder and use the following command in a terminal:
    ```sh
+   # Native
    go test ./...
-   
+
+   # Using docker
+   docker build -f ./DockerfileTest -t go-test-image .
+
+   docker run --rm go-test-image
+
 2. Frontend: To run unit test on frontend please locate inside frontend folder and use the following command in a terminal:
    ```sh
+   # Native
    npm run test:unit
 
+   # Using docker
+   docker build -f ./DockerfileTest -t vue-test-image .
+
+   docker run --rm vue-test-image
 
 ## Usage
 1. Open a web browser and navigate to the following URL: http://localhost:5001/

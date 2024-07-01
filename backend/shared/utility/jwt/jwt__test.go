@@ -27,7 +27,7 @@ func TestParse(t *testing.T) {
 	secretKey = "aa8b73-9fa0430c-53b486d7-c8c438048c"
 	audience = "TaskManagementAudience"
 	issuer = "TaskManagementIssuer"
-	token := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJUYXNrTWFuYWdlbWVudEF1ZGllbmNlIiwiZXhwIjoxNzE5ODM1OTI0LCJpc3MiOiJUYXNrTWFuYWdlbWVudElzc3VlciIsInVpZCI6IjgyOTg5ODMtMjMyMzMtMzIzMjMtMzIzMjMifQ.Ffg8Us86rrtHJHcTUAfks9PULYAe_TwUl5XKCwknPsw"
+	token, _ := GenerateJWT(userData)
 	data, _ := Parse(token)
 	t.Run("must parse a previous generated token", func(t *testing.T) {
 		assert.Equal(t, userData["userId"], data["uid"])
