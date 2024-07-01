@@ -1,0 +1,9 @@
+version: '3.5'
+services:
+  service:
+    build:
+      context: .
+      dockerfile: DockerfileBuild
+    container_name: task_manager_frontend
+    ports:
+      - "5001:80"      
