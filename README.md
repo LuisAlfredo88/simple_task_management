@@ -55,7 +55,14 @@ Steps to get the development environment running.
 
 2. Open a web browser and navigate to the following URL:
    ```sh
+   # Pre-build version
    http://localhost:5001/
+   # Build version
+   # Backend:
+   docker-compose -f ./backend/docker-compose-build.yml up
+   # Frontend
+   docker-compose -f ./frontend/docker-compose-build.yml up
+
    
    Enter the following credentials:
    Username: main
